@@ -1,0 +1,160 @@
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon">🌱</div>
+      <div>
+        <h2>Sanjivani AI</h2>
+        <p>Farmer Assistant</p>
+      </div>
+    </div>
+
+    <p class="menu-label">WORKSPACE</p>
+    <button class="nav-item active">💬 &nbsp; AI Assistant</button>
+    <button class="nav-item" (click)="showFarmers()">👨‍🌾 &nbsp; Farmers</button>
+    <button class="nav-item" (click)="showAnalytics()">📊 &nbsp; Analytics</button>
+
+    <div class="sidebar-bottom">
+      <div class="help-card">
+        <span>🌾</span>
+        <h3>Smart farming starts here</h3>
+        <p>Ask questions. Discover insights. Grow better.</p>
+      </div>
+      <p class="version">SANJIVANI AI · DEMO</p>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">SANJIVANI AGRICULTURE</p>
+        <h1>{{ pageTitle }}</h1>
+      </div>
+      <div class="status"><span></span> Assistant ready</div>
+    </header>
+
+    <section class="stats-grid">
+      <article class="stat-card">
+        <div class="stat-icon green">👨‍🌾</div>
+        <p>Total farmers</p>
+        <h2>10</h2>
+        <small>Sample farmer records</small>
+      </article>
+      <article class="stat-card">
+        <div class="stat-icon yellow">🌾</div>
+        <p>Sugarcane supplied</p>
+        <h2>1,247.25 <span>tons</span></h2>
+        <small>Based on sample data</small>
+      </article>
+      <article class="stat-card">
+        <div class="stat-icon orange">₹</div>
+        <p>Pending payments</p>
+        <h2>₹2,76,000</h2>
+        <small>Across sample records</small>
+      </article>
+    </section>
+
+    <section class="workspace">
+      <div class="chat-panel">
+        <div class="panel-heading">
+          <div class="assistant-avatar">🌱</div>
+          <div>
+            <h2>Ask Sanjivani AI</h2>
+            <p>Your intelligent farming companion</p>
+          </div>
+          <span class="online-dot"></span>
+        </div>
+
+        <div class="chat-body" #chatBody>
+          <div class="message assistant-message">
+            <div class="message-avatar">🌱</div>
+            <div class="message-content">
+              <p class="message-name">Sanjivani AI</p>
+              <div class="bubble">
+                Namaste! 🙏 Welcome to Sanjivani AI Farmer Assistant.
+                <br /><br />
+                Ask me about farmer records, sugarcane supply, pending
+                payments, or village-wise statistics.
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="message"
+            [class.user-message]="item.role === 'user'"
+            [class.assistant-message]="item.role === 'assistant'"
+            *ngFor="let item of messages"
+          >
+            <div class="message-avatar" *ngIf="item.role === 'assistant'">🌱</div>
+            <div class="message-content">
+              <p class="message-name">
+                {{ item.role === 'user' ? 'You' : 'Sanjivani AI' }}
+              </p>
+              <div class="bubble">{{ item.text }}</div>
+            </div>
+          </div>
+
+          <div class="suggestions" *ngIf="messages.length === 0">
+            <p>TRY ASKING</p>
+            <button (click)="askQuestion('Which farmer supplied the most sugarcane?')">
+              🏆 Highest sugarcane supplier
+            </button>
+            <button (click)="askQuestion('What is the total pending payment for all farmers?')">
+              ₹ Total pending payments
+            </button>
+            <button (click)="askQuestion('Which farmers belong to Rahata?')">
+              📍 Farmers in Rahata
+            </button>
+          </div>
+
+          <p class="thinking" *ngIf="loading">🌱 Sanjivani AI is thinking...</p>
+        </div>
+
+        <form class="chat-input-area" (ngSubmit)="sendMessage()">
+          <input
+            name="question"
+            [(ngModel)]="question"
+            placeholder="Ask anything about your farmers..."
+            autocomplete="off"
+            [disabled]="loading"
+          />
+          <button type="submit" [disabled]="loading || !question.trim()">
+            Send ↗
+          </button>
+        </form>
+        <p class="privacy-note">🌿 Smart insights for better farming</p>
+      </div>
+
+      <aside class="right-panel">
+        <div class="side-card">
+          <h3>✨ Quick questions</h3>
+          <p>Get insights in seconds</p>
+          <button (click)="askQuestion('Who has the highest pending payment?')">
+            <span>💰</span><span>Highest pending payment</span><span>›</span>
+          </button>
+          <button (click)="askQuestion('What is the average sugarcane supply per farmer?')">
+            <span>📈</span><span>Average sugarcane supply</span><span>›</span>
+          </button>
+          <button (click)="askQuestion('Show the farmers from Kopargaon')">
+            <span>📍</span><span>Kopargaon farmers</span><span>›</span>
+          </button>
+          <button (click)="askQuestion('Give me a summary of all farmer records')">
+            <span>📋</span><span>Farmer summary</span><span>›</span>
+          </button>
+        </div>
+
+        <div class="crop-banner">
+          <div class="crop-emoji">🌾</div>
+          <p class="banner-label">GROW WITH KNOWLEDGE</p>
+          <h3>Better insights.<br />Better harvests.</h3>
+          <p>Helping farmers make informed decisions with AI.</p>
+        </div>
+
+        <div class="side-card tip-card">
+          <h3>💡 Farming tip</h3>
+          <p>Use local soil tests and reliable weather forecasts to guide crop and irrigation decisions.</p>
+        </div>
+      </aside>
+    </section>
+  </main>
+</div>
