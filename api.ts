@@ -8,10 +8,14 @@ import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js"
 
 const app = express();
 
-app.use(cors({ origin: "http://localhost:4200" }));
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL || "http://localhost:4200",
+  })
+);
 app.use(express.json());
 
-const port = 3000;
+const port = Number(process.env.PORT) || 3000;
 
 if (!process.env.OPENAI_API_KEY || !process.env.MONGODB_URI) {
   throw new Error("Add OPENAI_API_KEY and MONGODB_URI to your .env file");
@@ -84,9 +88,9 @@ async function start() {
     }
   });
 
-  app.listen(port, () => {
-    console.log(`Sanjivani API running at http://localhost:${port}`);
-  });
+  app.listen(port, "0.0.0.0", () => {
+  console.log(`Sanjivani API running on port ${port}`);
+});
 }
 
 start().catch((error) => {
